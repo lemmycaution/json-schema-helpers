@@ -1,0 +1,33 @@
+{
+  "name": "json-schema-helpers",
+  "version": "0.0.1",
+  "description": "Helper functions to deal with json schema for various purposes",
+  "main": "index.js",
+  "scripts": {
+    "test": "$(npm bin)/mocha --compilers js:babel-core/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lemmycaution/json-schema-helpers.git"
+  },
+  "keywords": [
+    "json-schema",
+    "helpers"
+  ],
+  "author": "Onur Uyar <me@onuruyar.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lemmycaution/json-schema-helpers/issues"
+  },
+  "homepage": "https://github.com/lemmycaution/json-schema-helpers#readme",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.18.2",
+    "babel-preset-es2015": "^6.18.0",
+    "mocha": "^3.2.0",
+    "underscore": "^1.8.3"
+  },
+  "peerDependencies": {
+    "underscore": "^1.8.3"
+  }
+}

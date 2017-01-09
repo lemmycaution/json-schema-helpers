@@ -1,0 +1,478 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "profile": {
+      "definitions": {
+        "address": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "enum": [
+                "home",
+                "work",
+                "other"
+              ]
+            },
+            "street_address": {
+              "type": "string"
+            },
+            "city": {
+              "type": "string"
+            },
+            "region": {
+              "type": "string"
+            },
+            "postcode": {
+              "type": "string"
+            },
+            "country": {
+              "type": "string"
+            },
+            "primary": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "name",
+            "street_address",
+            "city",
+            "region",
+            "postcode",
+            "country",
+            "primary"
+          ]
+        }
+      },
+      "type": "object",
+      "properties": {
+        "full_name": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "male",
+            "female",
+            "other"
+          ]
+        },
+        "date_of_birth": {
+          "type": "string"
+        },
+        "emails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "string",
+                "format": "email"
+              },
+              "primary": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "address"
+            ],
+            "dependencies": {
+              "address": [
+                "primary"
+              ]
+            }
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "phone_numbers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": [
+                  "mobile",
+                  "home",
+                  "work",
+                  "other"
+                ]
+              },
+              "number": {
+                "type": "string",
+                "pattern": "^\\d{11}$"
+              },
+              "primary": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "number"
+            ],
+            "dependencies": {
+              "number": [
+                "name",
+                "primary"
+              ]
+            }
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "addresses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/address"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "identities": {
+          "type": "object",
+          "properties": {
+            "photo": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "proof_of_address": {
+              "type": "string"
+            },
+            "proof_of_eligibility_to_work": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "photo",
+            "id",
+            "proof_of_address",
+            "proof_of_eligibility_to_work"
+          ]
+        }
+      },
+      "required": [
+        "first_name",
+        "last_name",
+        "gender",
+        "date_of_birth",
+        "emails",
+        "phone_numbers",
+        "addresses",
+        "identities"
+      ]
+    },
+    "service": {
+      "type": "object",
+      "properties": {
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\w{2}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "ooh": {
+          "type": "boolean"
+        },
+        "services": {
+          "type": "object",
+          "properties": {
+            "interpreter": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "public_service",
+                  "court",
+                  "simultaneous",
+                  "telephone"
+                ]
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "translator": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "proof_reading",
+                  "transcription",
+                  "voice_over"
+                ]
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          }
+        },
+        "specialism": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "local_authority",
+              "probation",
+              "legal_aid",
+              "court",
+              "home_office",
+              "government",
+              "social_services",
+              "legal",
+              "financial",
+              "business",
+              "medical_pharmaceutical",
+              "technical",
+              "other"
+            ]
+          }
+        },
+        "unavailability": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "time": {
+                "type": "string",
+                "enum": [
+                  "weekdays",
+                  "weekend",
+                  "monday",
+                  "tuesday",
+                  "wednesday",
+                  "thursday",
+                  "friday",
+                  "saturday",
+                  "sunday",
+                  "morning",
+                  "noon",
+                  "afternoon",
+                  "evening",
+                  "midnight",
+                  "custom"
+                ]
+              },
+              "custom": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "time"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "rates_accepted": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "languages",
+        "ooh",
+        "services",
+        "availability",
+        "acceptance_of_pearl_rates"
+      ]
+    },
+    "resume": {
+      "type": "object",
+      "properties": {
+        "cv": {
+          "type": "string"
+        },
+        "qualifications": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "first_name": {
+                "type": "string"
+              },
+              "last_name": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string",
+                "pattern": "^\\d{11}$"
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              },
+              "relationship": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "cv"
+      ]
+    },
+    "account": {
+      "definitions": {
+        "bank_account": {
+          "type": "object",
+          "properties": {
+            "bank_name": {
+              "type": "string"
+            },
+            "sort_code": {
+              "type": "integer"
+            },
+            "account_number": {
+              "type": "integer"
+            },
+            "account_holder": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "bank_name",
+            "sort_code",
+            "account_number",
+            "account_holder"
+          ]
+        }
+      },
+      "type": "object",
+      "properties": {
+        "bank_account": {
+          "$ref": "#/definitions/bank_account"
+        },
+        "payment_method": {
+          "type": "string",
+          "enum": [
+            "bank_transfer",
+            "paypal",
+            "skrill",
+            "stripe"
+          ]
+        }
+      },
+      "required": [
+        "bank_account",
+        "payment_method"
+      ]
+    },
+    "health": {
+      "definitions": {
+        "vaccine": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "vaccinated": {
+              "type": "boolean"
+            },
+            "country": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "vaccinated",
+            "country"
+          ]
+        }
+      },
+      "type": "object",
+      "properties": {
+        "vaccines": {
+          "type": "array",
+          "title": "Vaccines",
+          "items": {
+            "$ref": "#/definitions/vaccine"
+          }
+        },
+        "problems": {
+          "type": "string"
+        }
+      }
+    },
+    "dbs": {
+      "definitions": {
+        "check": {
+          "type": "object",
+          "properties": {
+            "checked": {
+              "type": "boolean"
+            },
+            "name": {
+              "type": "string"
+            },
+            "certificate": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "type": "object",
+      "properties": {
+        "dbs_checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/check"
+          }
+        },
+        "other_checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/check"
+          }
+        }
+      }
+    }
+  },
+  "type": "object",
+  "properties": {
+    "service_aggreement": {
+      "type": "boolean"
+    },
+    "profile": {
+      "$ref": "#/definitions/profile"
+    },
+    "service": {
+      "$ref": "#/definitions/service"
+    },
+    "resume": {
+      "$ref": "#/definitions/resume"
+    },
+    "account": {
+      "$ref": "#/definitions/account"
+    },
+    "health": {
+      "$ref": "#/definitions/health"
+    },
+    "dbs": {
+      "$ref": "#/definitions/dbs"
+    }
+  },
+  "required": [
+    "profile",
+    "service_aggreement"
+  ]
+}
