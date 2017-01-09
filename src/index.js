@@ -47,7 +47,7 @@ function defineProperty (property, data, key, value) {
   return data[key]
 }
 
-function defineProperties (schema, data) {
+function defineProperties (schema, data = {}) {
   _.each(schema.properties, (property, key) => {
     let value
 

@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { defineProperties, parseSchema } from '../index'
+import { defineProperties, parseSchema } from '../src/index'
 
 
 describe('parseSchema', function() {
