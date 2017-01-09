@@ -29,13 +29,13 @@ describe('parseSchema', function() {
     }
     let parsedSchema = parseSchema(schema)
     assert.equal(parsedSchema.properties.billing_address.properties.city.type, 'string')
-    assert.equal(parsedSchema.properties.shipping_addresses.items.properties.city.type, 'string')
+    assert.equal(parsedSchema.properties.shipping_addresses.items[0].properties.city.type, 'string')
   })
   it('should deal with complex schemas', function () {
     let schema = require('./schema.json')
     let parsedSchema = parseSchema(schema)
     assert.equal(parsedSchema.properties.profile.properties.addresses.type, 'array')
-    assert.equal(parsedSchema.properties.profile.properties.addresses.items.properties.name.type, 'string')
+    assert.equal(parsedSchema.properties.profile.properties.addresses.items[0].properties.name.type, 'string')
     assert.equal(parsedSchema.properties.profile.properties.identities.properties.photo.type, 'string')
   })
 })
