@@ -54,13 +54,13 @@ function defineProperties (schema, data = {}) {
 
     switch (property.type) {
       case 'object':
-        value = defineProperties(property, data[key] || {})
+        value = defineProperties(property, data[key] || property.default || {})
         break
       case 'array':
-        value = data[key] || []
+        value = data[key] || property.default || []
         break
       default:
-        value = data[key] || null
+        value = data[key] || property.default || null
         break
     }
     defineProperty(property, data, key, value)
