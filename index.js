@@ -59,7 +59,7 @@ function defineProperties (schema, data) {
         value = data[key] || []
         break
       default:
-        value = data[key]
+        value = data[key] || null
         break
     }
     defineProperty(property, data, key, value)
