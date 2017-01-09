@@ -23,6 +23,7 @@ function parseSubSchema (subSchema, schema) {
     } else {
       subSchema['items'] = parseSchema(subSchema['items'])
     }
+    if (!subSchema['items'] instanceof Array) subSchema['items'] = [subSchema['items']]
   }
   return subSchema
 }
