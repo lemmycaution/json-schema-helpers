@@ -64,7 +64,7 @@ function defineProperties (schema, data) {
     }
     defineProperty(property, data, key, value)
   })
-  return data
+  return JSON.parse(JSON.stringify(data))
 }
 
 export {parseSchema, defineProperties}
