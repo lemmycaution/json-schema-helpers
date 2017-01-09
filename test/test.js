@@ -36,6 +36,7 @@ describe('parseSchema', function() {
     let parsedSchema = parseSchema(schema)
     assert.equal(parsedSchema.properties.profile.properties.addresses.type, 'array')
     assert.equal(parsedSchema.properties.profile.properties.addresses.items.properties.name.type, 'string')
+    assert.equal(parsedSchema.properties.profile.properties.identities.properties.photo.type, 'string')
   })
 })
 
