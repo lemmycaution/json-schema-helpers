@@ -13,7 +13,11 @@ function parseSubSchema (subSchema, schema) {
     subSchema = parseSchema(
       findSchemaDefinition(subSchema['$ref'], schema['definitions'])
    )
-  } else if (subSchema['type'] === 'array') {
+  }
+  if (schema['properties']) {
+    subSchema = parseSchema(subSchema)
+  }
+  if (subSchema['type'] === 'array') {
     if (subSchema['items']['$ref']) {
       subSchema['items'] = parseSchema(
         findSchemaDefinition(subSchema['items']['$ref'], schema['definitions'])
@@ -21,8 +25,8 @@ function parseSubSchema (subSchema, schema) {
     } else {
       subSchema['items'] = parseSchema(subSchema['items'])
     }
+    if (!(subSchema['items'] instanceof Array)) subSchema['items'] = [subSchema['items']]
   }
-  if (subSchema['items'] && !(subSchema['items'] instanceof Array)) subSchema['items'] = [subSchema['items']]
   return subSchema
 }
 
@@ -30,8 +34,7 @@ function parseSchema (orgSchema) {
   let schema = JSON.parse(JSON.stringify(orgSchema))
   if (schema['properties']) {
     for (let subSchemaName in schema['properties']) {
-      let subSchema = schema['properties'][subSchemaName]
-      schema['properties'][subSchemaName] = parseSubSchema(subSchema, schema)
+      schema['properties'][subSchemaName] = parseSubSchema(schema['properties'][subSchemaName], schema)
     }
   }
   return schema

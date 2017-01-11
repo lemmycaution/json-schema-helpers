@@ -332,10 +332,10 @@
               "type": "string"
             },
             "sort_code": {
-              "type": "integer"
+              "type": "number"
             },
             "account_number": {
-              "type": "integer"
+              "type": "number"
             },
             "account_holder": {
               "type": "string"
