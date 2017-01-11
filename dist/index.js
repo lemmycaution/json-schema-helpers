@@ -18,14 +18,18 @@ function findSchemaDefinition($ref) {
 function parseSubSchema(subSchema, schema) {
   if (subSchema['$ref']) {
     subSchema = parseSchema(findSchemaDefinition(subSchema['$ref'], schema['definitions']));
-  } else if (subSchema['type'] === 'array') {
+  }
+  if (schema['properties']) {
+    subSchema = parseSchema(subSchema);
+  }
+  if (subSchema['type'] === 'array') {
     if (subSchema['items']['$ref']) {
       subSchema['items'] = parseSchema(findSchemaDefinition(subSchema['items']['$ref'], schema['definitions']));
     } else {
       subSchema['items'] = parseSchema(subSchema['items']);
     }
+    if (!(subSchema['items'] instanceof Array)) subSchema['items'] = [subSchema['items']];
   }
-  if (subSchema['items'] && !(subSchema['items'] instanceof Array)) subSchema['items'] = [subSchema['items']];
   return subSchema;
 }
 
@@ -33,8 +37,7 @@ function parseSchema(orgSchema) {
   var schema = JSON.parse(JSON.stringify(orgSchema));
   if (schema['properties']) {
     for (var subSchemaName in schema['properties']) {
-      var subSchema = schema['properties'][subSchemaName];
-      schema['properties'][subSchemaName] = parseSubSchema(subSchema, schema);
+      schema['properties'][subSchemaName] = parseSubSchema(schema['properties'][subSchemaName], schema);
     }
   }
   return schema;
