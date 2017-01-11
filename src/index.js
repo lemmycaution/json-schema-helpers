@@ -1,5 +1,3 @@
-import _ from 'underscore'
-
 function findSchemaDefinition ($ref, definitions = {}) {
   // Extract and use the referenced definition if we have it.
   const match = /#\/definitions\/(.*)$/.exec($ref)
@@ -31,9 +29,10 @@ function parseSubSchema (subSchema, schema) {
 function parseSchema (orgSchema) {
   let schema = JSON.parse(JSON.stringify(orgSchema))
   if (schema['properties']) {
-    _.each(schema['properties'], function (subSchema, subSchemaName) {
+    for (let subSchemaName in schema['properties']) {
+      let subSchema = schema['properties'][subSchemaName]
       schema['properties'][subSchemaName] = parseSubSchema(subSchema, schema)
-    })
+    }
   }
   return schema
 }
@@ -49,9 +48,9 @@ function defineProperty (property, data, key, value) {
 }
 
 function defineProperties (schema, data = {}) {
-  _.each(schema.properties, (property, key) => {
+  for (let key in schema.properties) {
+    let property = schema.properties[key]
     let value
-
     switch (property.type) {
       case 'object':
         value = defineProperties(property, data[key] || property.default || {})
@@ -64,7 +63,7 @@ function defineProperties (schema, data = {}) {
         break
     }
     defineProperty(property, data, key, value)
-  })
+  }
   return JSON.parse(JSON.stringify(data))
 }
 

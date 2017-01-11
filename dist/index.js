@@ -3,14 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.defineProperties = exports.parseSchema = undefined;
-
-var _underscore = require('underscore');
-
-var _underscore2 = _interopRequireDefault(_underscore);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function findSchemaDefinition($ref) {
   var definitions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -40,9 +32,10 @@ function parseSubSchema(subSchema, schema) {
 function parseSchema(orgSchema) {
   var schema = JSON.parse(JSON.stringify(orgSchema));
   if (schema['properties']) {
-    _underscore2.default.each(schema['properties'], function (subSchema, subSchemaName) {
+    for (var subSchemaName in schema['properties']) {
+      var subSchema = schema['properties'][subSchemaName];
       schema['properties'][subSchemaName] = parseSubSchema(subSchema, schema);
-    });
+    }
   }
   return schema;
 }
@@ -60,9 +53,9 @@ function defineProperty(property, data, key, value) {
 function defineProperties(schema) {
   var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  _underscore2.default.each(schema.properties, function (property, key) {
+  for (var key in schema.properties) {
+    var property = schema.properties[key];
     var value = void 0;
-
     switch (property.type) {
       case 'object':
         value = defineProperties(property, data[key] || property.default || {});
@@ -75,7 +68,7 @@ function defineProperties(schema) {
         break;
     }
     defineProperty(property, data, key, value);
-  });
+  }
   return JSON.parse(JSON.stringify(data));
 }
 
