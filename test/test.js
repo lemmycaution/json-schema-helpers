@@ -102,9 +102,36 @@ describe('defineProperties', function() {
         }
       }
     }
-    
     assert.equal(defineProperties(schema, {classes: ['A1']}).classes[0], 'A1')
     assert.equal(defineProperties(schema, {}).classes.length, 0)
+  })
+  it('should deal with defaults', function () {
+    let schema = {
+      properties: {
+        arrayOfObjects: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              string: 'string'
+            }
+          },
+          default: [{}]
+        },
+        arrayOfArray: {
+          type: 'array',
+          items: {
+            type: 'array',
+            items: {
+              type: 'string'
+            }
+          },
+          default: [[]]
+        }
+      }
+    }
+    assert.equal(JSON.stringify(defineProperties(schema, {}).arrayOfObjects), '[{}]')
+    assert.equal(JSON.stringify(defineProperties(schema, {}).arrayOfArray), '[[]]')
   })
   it('should deal with complex schemas', function () {
     let schema = require('./schema.json')
