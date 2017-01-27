@@ -61,7 +61,7 @@ function defineProperties (schema, data = {}) {
         value = data[key] || property.default || []
         break
       default:
-        value = data[key] || property.default || null
+        value = data[key] || property.default || undefined
         break
     }
     defineProperty(property, data, key, value)

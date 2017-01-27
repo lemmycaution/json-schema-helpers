@@ -1,6 +1,6 @@
 {
   "name": "json-schema-helpers",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Helper functions to deal with json schema for various purposes",
   "main": "dist/index.js",
   "scripts": {
